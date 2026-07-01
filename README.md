@@ -163,9 +163,3 @@ The model loads (you'll see `llama.cpp`'s standard loading log), runs one forwar
 - **Latency anomaly threshold is adaptive, not fixed** — it is calibrated per-run as `mean + 2·stddev` across that run's own captured layers, since a fixed millisecond threshold would trigger constantly on CPU and almost never on GPU. This means a "quiet" run (no anomalies shown) does not indicate the detector is broken; it indicates no layer was a statistical outlier relative to its peers in that run.
 - **One forward pass per prompt** — the current build runs a single `llama_decode` call over the full prompt (prefill), not multi-token autoregressive generation. This was a deliberate scope decision to keep the trace focused on per-layer compute behavior rather than token-by-token sampling.
 - **Falls back to simulated data** if real model loading fails (missing GGUF file, bad path, etc.), so the TUI and panels remain demonstrable even without the model file present — useful for verifying UI behavior independently of inference correctness.
-
-### Possible extensions (not implemented, scoped out for time)
-- Multi-token autoregressive generation tracing (currently single forward pass)
-- Multi-head attention selection (currently fixed to head 0)
-- GPU/CUDA backend support
-- Persisting trace sessions to disk for offline comparison across runs
