@@ -1,0 +1,11 @@
+build/
+cmake-build-*/
+third_party/llama.cpp/
+third_party/ftxui/build/
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+models/

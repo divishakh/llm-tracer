@@ -3,20 +3,24 @@
 #include <string>
 #include <vector>
 
-// Represents a detected anomaly
 struct Anomaly {
-    std::string message;    // description of the anomaly
-    std::string severity;   // "WARNING" or "ERROR"
+    std::string message;
+    std::string severity;
     long long   timestamp;
 };
 
-// Checks each layer event for numerical anomalies
 class AnomalyDetector {
 public:
-    // Check a single layer event for anomalies
     static void check(const LayerEvent& ev, std::vector<Anomaly>& anomalies);
+
+    // Call this once after all events are collected to compute
+    // a realistic latency baseline before running check() again
+    static void calibrate(const std::vector<LayerEvent>& events);
 
 private:
     static constexpr float MAX_ACTIVATION_THRESHOLD = 6.0f;
-    static constexpr float HIGH_LATENCY_THRESHOLD   = 1.5f;
+
+    static float latency_mean;
+    static float latency_stddev;
+    static bool  calibrated;
 };
